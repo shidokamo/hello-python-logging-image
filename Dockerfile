@@ -20,31 +20,15 @@ COPY requirements.txt /
 # 2. Install fluentd via ruby.
 # 3. Remove build dependencies.
 # 4. Cleanup leftover caches & files.
-# RUN BUILD_DEPS="make gcc g++ libc6-dev ruby-dev libffi-dev" \
-#     && clean-install $BUILD_DEPS \
-#                      libsystemd-dev \
-#                      ca-certificates \
-#                      libjemalloc1 \
-#                      liblz4-1 \
-#                      ruby \
-#     && echo 'gem: --no-document' >> /etc/gemrc \
-#     && gem install --file Gemfile \
-#     && apt-get purge -y --auto-remove \
-#                      -o APT::AutoRemove::RecommendsImportant=false \
-#                      $BUILD_DEPS \
-#     && rm -rf /tmp/* \
-#               /var/lib/apt/lists/* \
-#               /usr/lib/ruby/gems/*/cache/*.gem \
-#               /var/log/* \
-#               /var/tmp/*
-RUN BUILD_DEPS="" \
+RUN BUILD_DEPS="curl ca-certificates" \
     && clean-install $BUILD_DEPS \
                      python3 \
-                     pip3 \
-    && python3 -m pip3 install -r requirements.txt \
-#    && apt-get purge -y --auto-remove \
-#                     -o APT::AutoRemove::RecommendsImportant=false \
-#                     $BUILD_DEPS \
+    && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python3 get-pip.py \
+    && python3 -m pip install -r requirements.txt \
+    && apt-get purge -y --auto-remove \
+                     -o APT::AutoRemove::RecommendsImportant=false \
+                     $BUILD_DEPS \
     && rm -rf /tmp/* \
               /var/lib/apt/lists/* \
               /var/log/* \
