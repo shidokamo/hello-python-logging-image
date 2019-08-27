@@ -20,8 +20,11 @@ gem install fluent-plugin-insert-id
 fluentd -c ./fluent.conf
 
 # Open another terminal
-make log LOG_INTERVAL=0.5
+make log LOG_INTERVAL=0.5   # Slow rate log injection
+make log                    # Max rate log injection
 ```
+* fluentd がログローテートを検出できることを確認してください。
+* fluentd がログを構造化することを確認してください。
 
 ## イメージのビルドとローカルテスト
 ```bash
