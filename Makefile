@@ -6,6 +6,13 @@ TAG = 1.0.0
 
 default:build push
 
+# Local debug (no Docker)
+log:clean
+	pipenv run python -u hello.py
+clean:
+	-rm txt*
+
+# build
 requirements:
 	pipenv lock -r > requirements.txt
 build:requirements
@@ -20,10 +27,4 @@ login:
 	docker exec -it --name ${IMAGE} /bin/sh
 kill:
 	docker kill ${IMAGE}
-
-# Local debug (no Docker)
-log:clean
-	pipenv run python -u hello.py
-clean:
-	-rm txt*
 
