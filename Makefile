@@ -18,6 +18,8 @@ run:
 	docker run -itd --name ${IMAGE} --env LOG_INTERVAL=0.1 $(PREFIX)/${IMAGE}:$(TAG)
 login:
 	docker exec -it --name ${IMAGE} /bin/sh
+kill:
+	docker kill ${IMAGE}
 
 # Local debug (no Docker)
 log:clean
