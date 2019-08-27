@@ -23,14 +23,15 @@ COPY requirements.txt /
 RUN BUILD_DEPS="curl ca-certificates" \
     && clean-install $BUILD_DEPS \
                      python3 \
-    && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && python3 get-pip.py \
+    && curl https://bootstrap.pypa.io/get-pip.py -o /get-pip.py \
+    && python3 /get-pip.py \
     && python3 -m pip install -r requirements.txt \
     && apt-get purge -y --auto-remove \
                      -o APT::AutoRemove::RecommendsImportant=false \
                      $BUILD_DEPS \
     && rm -rf /tmp/* \
               /var/lib/apt/lists/* \
+              /get-pip.py \
               /var/log/* \
               /var/tmp/*
 
