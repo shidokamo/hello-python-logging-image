@@ -26,7 +26,7 @@ dictConfig({
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'level': 'DEBUG',
             'formatter': 'ltsv',
-            'filename': 'txt.log',
+            'filename': 'python.log',
             'interval': 5,
             'when': 'S',
             'backupCount': 5,
