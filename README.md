@@ -23,8 +23,8 @@ fluentd -c ./fluent.conf
 make log LOG_INTERVAL=0.5   # Slow rate log injection
 make log                    # Max rate log injection
 ```
-* fluentd がログローテートを検出できることを確認してください。
-* fluentd がログを構造化することを確認してください。
+* fluentd がログローテートを検出できることを確認してください。fluentd の標準出力にログが吐かれます。
+* fluentd がログを構造化することを確認してください。メインのログは流量が多いのでファイル出力されます。
 
 ## イメージのビルドとローカルテスト
 ```bash
