@@ -9,10 +9,11 @@ export LOG_INTERVAL
 default:build push
 
 # Local debug (no Docker)
-log:clean
+log:
 	pipenv run python -u hello.py
 clean:
 	-rm -rf *.log*
+	-rm -rf country
 
 # build
 requirements:
