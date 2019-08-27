@@ -37,7 +37,7 @@ dictConfig({
 })
 
 logging.info("------------------------------------------------------------------")
-logging.info(f" logging : interval = {os.environ.get('LOG_INTERVAL')} sec")
+logging.info(" logging : interval = {} sec".format(os.environ.get('LOG_INTERVAL')))
 logging.info("------------------------------------------------------------------")
 i = 0
 while True:
