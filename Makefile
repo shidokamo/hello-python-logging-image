@@ -15,7 +15,9 @@ push:
 
 # Local debug (with Docker)
 run:
-	docker run -itd --env LOG_INTERVAL=0.1 $(PREFIX)/${IMAGE}:$(TAG)
+	docker run -itd --name ${IMAGE} --env LOG_INTERVAL=0.1 $(PREFIX)/${IMAGE}:$(TAG)
+login:
+	docker exec -it --name ${IMAGE} /bin/sh
 
 # Local debug (no Docker)
 log:clean
