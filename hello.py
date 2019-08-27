@@ -63,7 +63,7 @@ while True:
         fwrite.info("count:{:8}\tcountry-name:{}\tofficial-country-name:{}".format(i, country.name, country.official_name))
     except Exception as e:
         # Sometimes there is no official name
-        fwrite.warn("message:{}'s official name is same as common name".format(country.name))
+        fwrite.warning("message:{}'s official name is same as common name".format(country.name))
         fwrite.info("count:{:8}\tcountry-name:{}\tofficial-country-name:{}".format(i, country.name, ""))
     if os.environ.get('LOG_INTERVAL'):
         time.sleep(float(os.environ['LOG_INTERVAL']))
