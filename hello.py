@@ -12,7 +12,7 @@ dictConfig({
         'simple': {
             'format': '[%(asctime)s] %(levelname)s : %(message)s',
         },
-        'tsv': {
+        'ltsv': {
             'format': 'time:%(asctime)s\tlevel:%(levelname)s\t%(message)s',
         },
     },
@@ -25,7 +25,7 @@ dictConfig({
         'file-rotate': {
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'level': 'DEBUG',
-            'formatter': 'tsv',
+            'formatter': 'ltsv',
             'filename': 'txt.log',
             'interval': 5,
             'when': 'S',
@@ -63,7 +63,7 @@ while True:
         fwrite.info("count:{:8}\tcountry-name:{}\tofficial-country-name:{}".format(i, country.name, country.official_name))
     except Exception as e:
         # Sometimes there is no official name
-        console.warn("{}'s official name is same as common name".format(country.name))
+        fwrite.warn("message:{}'s official name is same as common name".format(country.name))
         fwrite.info("count:{:8}\tcountry-name:{}\tofficial-country-name:{}".format(i, country.name, ""))
     if os.environ.get('LOG_INTERVAL'):
         time.sleep(float(os.environ['LOG_INTERVAL']))
