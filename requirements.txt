@@ -1,0 +1,2 @@
+-i https://pypi.org/simple
+pycountry==19.8.18
