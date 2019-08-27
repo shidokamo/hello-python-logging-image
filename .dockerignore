@@ -2,3 +2,4 @@ Makefile
 Pipfile
 Pipfile.lock
 *.md
+txt*
