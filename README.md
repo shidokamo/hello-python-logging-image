@@ -13,6 +13,16 @@ make log
 ```
 ログローテートにより、ローカルにファイルがバックアップが保存されていくのを確認してください。
 
+## ローカルでプログラムを fluentd とテストする方法
+```bash
+gem install fluentd
+gem install fluent-plugin-insert-id
+fluentd -c ./fluent.conf
+
+# Open another terminal
+make log LOG_INTERVAL=0.5
+```
+
 ## イメージのビルドとローカルテスト
 ```bash
 make build
