@@ -3,7 +3,12 @@ Python の logging モジュールを利用して、ファイルにログを吐�
 fluentd 等と併用して、ログストーリムのテストに使用することを想定しています。
 [hello-python-loggin](https://github.com/shidokamo/hello-python-logging)のコードを再利用し改善を行なっています。
 
-* ログを標準出力とファイルの両方に吐きます。それぞれに違う敷居値を設定しています。
+また、fluentd 自体の動作確認がローカルで行うことができます。
+特にファイルバッファー周りの動作を確認することができます。
+
+* ログを標準出力とファイルの両方に吐きます。
+  * ファイルへのログは、LTSV です。
+  * 標準出力へのログは読みやすい形式で出力されます。
 * ファイルへのログは、5秒ごとにローテートされます。
 
 ## ローカルでのプログラムのデバック方法
@@ -20,8 +25,8 @@ gem install fluent-plugin-insert-id
 fluentd -c ./fluent.conf
 
 # Open another terminal
-make log LOG_INTERVAL=0.5   # Slow rate log injection
-make log                    # Max rate log injection
+make log LOG_INTERVAL=1   # Slow rate log injection
+make log                  # Max rate log injection
 ```
 * fluentd がログローテートを検出できることを確認してください。fluentd の標準出力にログが吐かれます。
 * fluentd がログを構造化することを確認してください。メインのログは流量が多いのでファイル出力されます。
