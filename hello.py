@@ -43,11 +43,11 @@ i = 0
 while True:
     country = random.sample(list(countries), 1).pop()
     try:
-        logging.info(f"[{i:8}] Hello {country.official_name}!")
+        logging.info("[{:8}] Hello {}!".format(i, country.official_name))
     except Exception as e:
         # Sometimes there is no official name
-        logging.warn(f"{country.name}'s official name is same as common name")
-        logging.info(f"[{i:8}] Hello {country.name}!")
+        logging.warn("{}'s official name is same as common name".format(country.name))
+        logging.info("[{:8}] Hello {}!".format(i, country.name))
     if os.environ.get('LOG_INTERVAL'):
         time.sleep(float(os.environ['LOG_INTERVAL']))
     i += 1
