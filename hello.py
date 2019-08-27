@@ -12,17 +12,20 @@ dictConfig({
         'simple': {
             'format': '[%(asctime)s] %(levelname)s : %(message)s',
         },
+        'tsv': {
+            'format': 'time:%(asctime)s\tlevel:%(levelname)s\t%(message)s',
+        },
     },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
-            'level': 'WARNING',
+            'level': 'DEBUG',
             'formatter': 'simple',
         },
         'file-rotate': {
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'level': 'DEBUG',
-            'formatter': 'simple',
+            'formatter': 'tsv',
             'filename': 'txt.log',
             'interval': 5,
             'when': 'S',
@@ -30,20 +33,31 @@ dictConfig({
             'encoding': 'utf-8',
         },
     },
+    'loggers': {
+        'file': {
+            'handlers': ['file-rotate'],
+        },
+        'console': {
+            'handlers': ['console'],
+        },
+    },
     'root': {
         'level': 'DEBUG',
-        'handlers': ['console', 'file-rotate'],
+        'handlers': ['console'],
     },
 })
 
-logging.info("------------------------------------------------------------------")
-logging.info(" logging : interval = {} sec".format(os.environ.get('LOG_INTERVAL')))
-logging.info("------------------------------------------------------------------")
+console = logging.getLogger('console')
+fwrite  = logging.getLogger('file')
+
+console.info("------------------------------------------------------------------")
+console.info(" logging : interval = {} sec".format(os.environ.get('LOG_INTERVAL')))
+console.info("------------------------------------------------------------------")
 i = 0
 while True:
     country = random.sample(list(countries), 1).pop()
     try:
-        logging.info("[{:8}] Hello {}!".format(i, country.official_name))
+        fwrite.info("count:{:8}\tcountry-official-name:{}!".format(i, country.official_name))
     except Exception as e:
         # Sometimes there is no official name
         logging.warn("{}'s official name is same as common name".format(country.name))
