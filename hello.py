@@ -25,7 +25,8 @@ dictConfig({
             'formatter': 'simple',
             'filename': 'txt.log',
             'when': 'S',
-            'backupCount': 20,
+            'interval': '5',
+            'backupCount': 5,
             'encoding': 'utf-8',
         },
     },
@@ -50,5 +51,3 @@ while True:
     if os.environ.get('LOG_INTERVAL'):
         time.sleep(float(os.environ['LOG_INTERVAL']))
     i += 1
-    if i > 300_000:
-        break
