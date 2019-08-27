@@ -35,16 +35,18 @@ dictConfig({
     },
     'loggers': {
         'file': {
+            'level': 'DEBUG',
             'handlers': ['file-rotate'],
         },
         'console': {
+            'level': 'DEBUG',
             'handlers': ['console'],
         },
     },
-    'root': {
-        'level': 'DEBUG',
-        'handlers': ['console'],
-    },
+#    'root': {
+#        'level': 'DEBUG',
+#        'handlers': ['console'],
+#    },
 })
 
 console = logging.getLogger('console')
@@ -56,12 +58,13 @@ console.info("------------------------------------------------------------------
 i = 0
 while True:
     country = random.sample(list(countries), 1).pop()
+    console.info("[{:8}] Hello {}!".format(i, country.name))
     try:
-        fwrite.info("count:{:8}\tcountry-official-name:{}!".format(i, country.official_name))
+        fwrite.info("count:{:8}\tcountry-name:{}\tofficial-country-name:{}".format(i, country.name, country.official_name))
     except Exception as e:
         # Sometimes there is no official name
-        logging.warn("{}'s official name is same as common name".format(country.name))
-        logging.info("[{:8}] Hello {}!".format(i, country.name))
+        console.warn("{}'s official name is same as common name".format(country.name))
+        fwrite.info("count:{:8}\tcountry-name:{}\tofficial-country-name:{}".format(i, country.name, ""))
     if os.environ.get('LOG_INTERVAL'):
         time.sleep(float(os.environ['LOG_INTERVAL']))
     i += 1
