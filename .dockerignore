@@ -1,0 +1,4 @@
+Makefile
+Pipfile
+Pipfile.lock
+*.md
