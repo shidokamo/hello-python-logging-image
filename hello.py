@@ -1,10 +1,11 @@
 import time
 import random
 import os
+import json
 from datetime import datetime
-from pycountry import countries
 import logging
 from logging.config import dictConfig
+from shapely.geometry import shape, Point, Polygon
 
 dictConfig({
     'version': 1,
@@ -14,6 +15,11 @@ dictConfig({
         },
         'ltsv': {
             'format': 'time:%(asctime)s\tlevel:%(levelname)s\t%(message)s',
+        },
+        'json': {
+            #  TODO: 構造化データの中に、level などの情報を入れたいのだがやり方がわからない。
+            # 'format': "{'time':'%(asctime)s','level':'%(levelname)s','data':%(message)s}",
+            'format': "%(message)s",
         },
     },
     'handlers': {
@@ -25,10 +31,10 @@ dictConfig({
         'file-rotate': {
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'level': 'DEBUG',
-            'formatter': 'ltsv',
-            'filename': 'python.log',
-            'interval': 5,
-            'when': 'S',
+            'formatter': 'json',
+            'filename': 'app.log',
+            'interval': 2,
+            'when': 'M',
             'backupCount': 5,
             'encoding': 'utf-8',
         },
@@ -52,19 +58,61 @@ dictConfig({
 console = logging.getLogger('console')
 fwrite  = logging.getLogger('file')
 
+SOURCE_PATH = os.path.dirname(os.path.abspath(__file__))
+# GEO_JSON_PATH = SOURCE_PATH + "/gz_2010_us_outline_20m.json"
+GEO_JSON_PATH = SOURCE_PATH + "/japan_outline.geojson"
+GEO_JSON = json.load(open(GEO_JSON_PATH,'r'))
+USA_LAT_MAX = 50
+USA_LAT_MIN = 24
+USA_LON_MAX = -65
+USA_LON_MIN = -125
+JAPAN_LAT_MAX = 46
+JAPAN_LAT_MIN = 30
+JAPAN_LON_MAX = 145
+JAPAN_LON_MIN = 128
+
+# 任意の位置情報が GEOJSON の領域に属するかどうか確認するメソッド
+# Usage : usa_region(34.699134, 135.495218)
+def within_region(lat, lon):
+    point = Point(lon, lat) # GEO_JSON uses unusual (lon, lat) order !!
+    for feature in GEO_JSON['features']:
+#        polygon = Polygon(feature['geometry']['coordinates'])
+        polygon = shape(feature['geometry'])
+        if polygon.contains(point):
+            return True
+    return False
+
 console.info("------------------------------------------------------------------")
 console.info(" logging : interval = {} sec".format(os.environ.get('LOG_INTERVAL')))
 console.info("------------------------------------------------------------------")
 i = 0
+# Waighted category
+category_index = [1,1,1,1,2,2,3,3,3,3,3,3,3,4,4,4,4,4,5,6,6,6,6,6,7,7,7,8,8,8,8,8,9,9,10,10,10,]
 while True:
-    country = random.sample(list(countries), 1).pop()
-    console.info("[{:8}] Hello {}!".format(i, country.name))
+    # Generate random longitude and latitude
+    # lat = round(random.uniform(USA_LAT_MIN, USA_LAT_MAX), 6)
+    # lon = round(random.uniform(USA_LON_MIN, USA_LON_MAX), 6)
+    lat = round(random.uniform(JAPAN_LAT_MIN, JAPAN_LAT_MAX), 6)
+    lon = round(random.gauss(138.7274, 5), 6)
     try:
-        fwrite.info("count:{:8}\tcountry-name:{}\tofficial-country-name:{}".format(i, country.name, country.official_name))
+        if within_region(lat, lon):
+            data = {
+                    'location': {
+                        'lat': lat,
+                        'lon': lon,
+                    },
+                    # Add some random values
+                    'cost': random.gauss(500, 100),
+                    'score': random.random(),
+                    'category': random.sample(category_index, k=1)[0],
+                    }
+            fwrite.info(json.dumps(data)) # Dump raw JSON into the file
+        else:
+            console.info("Latitude: {}, Longitude: {} is not within the region".format(lat, lon))
+            continue
+        console.info("[{:8}] Latitude: {}, Longitude: {}".format(i, lat, lon))
     except Exception as e:
-        # Sometimes there is no official name
-        fwrite.warning("message:{}'s official name is same as common name".format(country.name))
-        fwrite.info("count:{:8}\tcountry-name:{}\tofficial-country-name:{}".format(i, country.name, ""))
+        console.warning(e);
     if os.environ.get('LOG_INTERVAL'):
         time.sleep(float(os.environ['LOG_INTERVAL']))
     i += 1
