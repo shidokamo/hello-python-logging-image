@@ -1,0 +1,42 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    concurrent-ruby (1.1.5)
+    cool.io (1.5.4)
+    dig_rb (1.0.1)
+    fluent-plugin-insert-id (1.1.0)
+      fluentd (>= 0.14.10, < 2)
+    fluentd (1.7.0)
+      cool.io (>= 1.4.5, < 2.0.0)
+      dig_rb (~> 1.0.0)
+      http_parser.rb (>= 0.5.1, < 0.7.0)
+      msgpack (>= 0.7.0, < 2.0.0)
+      serverengine (>= 2.0.4, < 3.0.0)
+      sigdump (~> 0.2.2)
+      strptime (>= 0.2.2, < 1.0.0)
+      tzinfo (~> 2.0)
+      tzinfo-data (~> 1.0)
+      yajl-ruby (~> 1.0)
+    http_parser.rb (0.6.0)
+    msgpack (1.3.1)
+    oj (3.9.1)
+    serverengine (2.1.1)
+      sigdump (~> 0.2.2)
+    sigdump (0.2.4)
+    strptime (0.2.3)
+    tzinfo (2.0.0)
+      concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2019.2)
+      tzinfo (>= 1.0.0)
+    yajl-ruby (1.4.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  fluent-plugin-insert-id
+  fluentd
+  oj
+
+BUNDLED WITH
+   2.0.2
