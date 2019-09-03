@@ -1,5 +1,9 @@
 Makefile
 Pipfile
 Pipfile.lock
+Gemfile
+Gemfile.lock
+*.log*
 *.md
-txt*
+vendor
+.bundle
