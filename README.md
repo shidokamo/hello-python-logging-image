@@ -1,35 +1,40 @@
 # Hello Python Logging Image
 Python の logging モジュールを利用して、ファイルにログを吐き続けるイメージです。
 fluentd 等と併用して、ログストーリムのテストに使用することを想定しています。
-[hello-python-loggin](https://github.com/shidokamo/hello-python-logging)のコードを再利用し改善を行なっています。
 
 また、fluentd 自体の動作確認がローカルで行うことができます。
 特にファイルバッファー周りの動作を確認することができます。
 
 * ログを標準出力とファイルの両方に吐きます。
-  * ファイルへのログは、LTSV です。
+  * ファイルへのログは、JSON です。
   * 標準出力へのログは読みやすい形式で出力されます。
 * ファイルへのログは、5秒ごとにローテートされます。
 
+## ログの内容
+ランダムに緯度と経度の座標を生成します。
+緯度と経度は大まかに、日本の本州、北海道、四国、九州の陸地のどこかを表しています。
+座標と共に、乱数として生成されたダミーのデータをいくつか与え、ひとつのレコードとします。
+
+## 利用したデータ（日本の座標）
+簡略化した日本の geojson データとして、以下のものを用いさせていただきました。
+https://gist.github.com/shimizu/627b37e303efaf4045f637322e9898ee
+
 ## ローカルでのプログラムのデバック方法
 ```bash
-pipenv install
+make install
 make log
 ```
 ログローテートにより、ローカルにファイルがバックアップが保存されていくのを確認してください。
 
 ## ローカルでプログラムを fluentd とテストする方法
 ```bash
-gem install fluentd
-gem install fluent-plugin-insert-id
-fluentd -c ./fluent.conf
+make fluentd
 
 # Open another terminal
 make log LOG_INTERVAL=1   # Slow rate log injection
 make log                  # Max rate log injection
 ```
-* fluentd がログローテートを検出できることを確認してください。fluentd の標準出力にログが吐かれます。
-* fluentd がログを構造化することを確認してください。メインのログは流量が多いのでファイル出力されます。
+* fluentd がログローテートを検出できることを確認してください。
 
 ## イメージのビルドとローカルテスト
 ```bash
