@@ -6,7 +6,6 @@ from datetime import datetime
 import logging
 from logging.config import dictConfig
 from shapely.geometry import shape, Point, Polygon
-from pythonjsonlogger import jsonlogger
 
 class FormatterJSON(logging.Formatter):
     def format(self, record):
