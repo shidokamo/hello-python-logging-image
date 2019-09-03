@@ -13,7 +13,7 @@ install:
 	pipenv install
 	bundle install --path=./vendor/bundle
 log:
-	pipenv run python -u hello.py
+	pipenv run python -u code/hello.py
 clean:
 	-rm -rf *.log*
 	-rm -rf country
