@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 geopy = "*"
 shapely = "*"
+python-json-logger = "*"
 
 [requires]
 python_version = "3"
