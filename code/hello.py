@@ -62,13 +62,11 @@ SOURCE_PATH = os.path.dirname(os.path.abspath(__file__))
 # GEO_JSON_PATH = SOURCE_PATH + "/gz_2010_us_outline_20m.json"
 GEO_JSON_PATH = SOURCE_PATH + "/japan_outline.geojson"
 GEO_JSON = json.load(open(GEO_JSON_PATH,'r'))
-USA_LAT_MAX = 50
-USA_LAT_MIN = 24
-USA_LON_MAX = -65
-USA_LON_MIN = -125
 JAPAN_LAT_MAX = 46
+JAPAN_LAT_CENTER = 35.3606 # Mt. Fuji
 JAPAN_LAT_MIN = 30
 JAPAN_LON_MAX = 145
+JAPAN_LON_CENTER = 138.7274 # Mt. Fuji
 JAPAN_LON_MIN = 128
 
 # 任意の位置情報が GEOJSON の領域に属するかどうか確認するメソッド
@@ -90,10 +88,8 @@ i = 0
 category_index = [1,1,1,1,2,2,3,3,3,3,3,3,3,4,4,4,4,4,5,6,6,6,6,6,7,7,7,8,8,8,8,8,9,9,10,10,10,]
 while True:
     # Generate random longitude and latitude
-    # lat = round(random.uniform(USA_LAT_MIN, USA_LAT_MAX), 6)
-    # lon = round(random.uniform(USA_LON_MIN, USA_LON_MAX), 6)
-    lat = round(random.uniform(JAPAN_LAT_MIN, JAPAN_LAT_MAX), 6)
-    lon = round(random.gauss(138.7274, 5), 6)
+    lat = round(random.gauss(JAPAN_LAT_CENTER, 1), 6)
+    lon = round(random.gauss(JAPAN_LON_CENTER, 1), 6)
     try:
         if within_region(lat, lon):
             data = {
