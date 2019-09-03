@@ -17,9 +17,13 @@ class FormatterJSON(logging.Formatter):
             # Create JSON message
             json_msg = {'message': record.msg}
         # Timestamp
-        record.asctime = self.formatTime(record, self.datefmt)  # I don't know why this is required.
-        json_msg['timestamp'] = record.asctime
-        json_msg['unixtimestamp'] = record.created
+        if 'timestamp' in record.msg:
+            # Format timestamp to make it readable
+            pass
+        else:
+            record.asctime = self.formatTime(record, self.datefmt)
+            json_msg['timestamp'] = record.asctime
+        json_msg['created'] = record.created
         json_msg['level'] = record.levelname
 
         return json.dumps(json_msg, ensure_ascii=False)
@@ -117,6 +121,7 @@ while True:
                     'cost': random.gauss(500, 100),
                     'score': random.random(),
                     'category': random.sample(category_index, k=1)[0],
+#                    'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S,%f')
                     }
             fwrite.info(data) # Dump raw JSON into the file
         else:
