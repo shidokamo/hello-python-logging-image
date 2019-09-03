@@ -6,6 +6,12 @@ from datetime import datetime
 import logging
 from logging.config import dictConfig
 from shapely.geometry import shape, Point, Polygon
+from pythonjsonlogger import jsonlogger
+
+#class CustomJsonFormatter(jsonlogger.JsonFormatter):
+#    def add_fields(self, log_record, record, message_dict):
+#        super(CustomJsonFormatter, self).add_fields(log_record, record, message_dict)
+formatter = jsonlogger.JsonFormatter()
 
 dictConfig({
     'version': 1,
@@ -17,9 +23,8 @@ dictConfig({
             'format': 'time:%(asctime)s\tlevel:%(levelname)s\t%(message)s',
         },
         'json': {
-            #  TODO: 構造化データの中に、level などの情報を入れたいのだがやり方がわからない。
-            # 'format': "{'time':'%(asctime)s','level':'%(levelname)s','data':%(message)s}",
             'format': "%(message)s",
+            'class': 'pythonjsonlogger.jsonlogger.JsonFormatter'
         },
     },
     'handlers': {
@@ -102,7 +107,7 @@ while True:
                     'score': random.random(),
                     'category': random.sample(category_index, k=1)[0],
                     }
-            fwrite.info(json.dumps(data)) # Dump raw JSON into the file
+            fwrite.info('message', extra=data) # Dump raw JSON into the file
         else:
             console.info("Latitude: {}, Longitude: {} is not within the region".format(lat, lon))
             continue
