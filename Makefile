@@ -9,6 +9,9 @@ export LOG_INTERVAL
 default:build push
 
 # Local debug (no Docker)
+install:
+	pipenv install
+	bundle install --path=./vendor/bundle
 log:
 	pipenv run python -u hello.py
 clean:
