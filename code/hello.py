@@ -35,7 +35,7 @@ dictConfig({
         },
         'json': {
             '()': '__main__.FormatterJSON', # specify external scope
-            'format': "%(asctime)s\t%(levelname)s\t%(message)s", # This is like a dummpy format to pass message
+            'format': "%(message)s", # This is like a dummpy format to pass message
         },
     },
     'handlers': {
