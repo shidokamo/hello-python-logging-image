@@ -2,7 +2,7 @@ REPO=gcr.io
 PROJECT:= $(shell gcloud config get-value project)
 PREFIX := ${REPO}/${PROJECT}
 IMAGE := hello-python-logging
-TAG = 1.0.0
+TAG = 2.0.0
 LOG_INTEVAL =
 export LOG_INTERVAL
 
@@ -17,6 +17,8 @@ log:
 clean:
 	-rm -rf *.log*
 	-rm -rf country
+fluentd:
+	bundle exec fluentd -c fluent.conf
 
 # build
 requirements:
