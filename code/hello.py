@@ -19,6 +19,7 @@ class FormatterJSON(logging.Formatter):
         # Timestamp
         record.asctime = self.formatTime(record, self.datefmt)  # I don't know why this is required.
         json_msg['timestamp'] = record.asctime
+        json_msg['unixtimestamp'] = record.created
         json_msg['level'] = record.levelname
 
         return json.dumps(json_msg, ensure_ascii=False)
