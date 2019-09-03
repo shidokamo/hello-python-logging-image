@@ -8,10 +8,21 @@ from logging.config import dictConfig
 from shapely.geometry import shape, Point, Polygon
 from pythonjsonlogger import jsonlogger
 
-#class CustomJsonFormatter(jsonlogger.JsonFormatter):
-#    def add_fields(self, log_record, record, message_dict):
-#        super(CustomJsonFormatter, self).add_fields(log_record, record, message_dict)
-formatter = jsonlogger.JsonFormatter()
+class FormatterJSON(logging.Formatter):
+    def format(self, record):
+        # Check if message is dict
+        if isinstance(record.msg, dict):
+            # Use dict as JSON source
+            json_msg = record.msg
+        else:
+            # Create JSON message
+            json_msg = {'message': record.msg}
+        # Timestamp
+        record.asctime = self.formatTime(record, self.datefmt)  # I don't know why this is required.
+        json_msg['timestamp'] = record.asctime
+        json_msg['level'] = record.levelname
+
+        return json.dumps(json_msg, ensure_ascii=False)
 
 dictConfig({
     'version': 1,
@@ -23,8 +34,8 @@ dictConfig({
             'format': 'time:%(asctime)s\tlevel:%(levelname)s\t%(message)s',
         },
         'json': {
-            'format': "%(message)s",
-            'class': 'pythonjsonlogger.jsonlogger.JsonFormatter'
+            '()': '__main__.FormatterJSON', # specify external scope
+            'format': "%(asctime)s\t%(levelname)s\t%(message)s", # This is like a dummpy format to pass message
         },
     },
     'handlers': {
@@ -107,7 +118,7 @@ while True:
                     'score': random.random(),
                     'category': random.sample(category_index, k=1)[0],
                     }
-            fwrite.info('message', extra=data) # Dump raw JSON into the file
+            fwrite.info(data) # Dump raw JSON into the file
         else:
             console.info("Latitude: {}, Longitude: {} is not within the region".format(lat, lon))
             continue
