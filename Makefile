@@ -25,6 +25,8 @@ requirements:
 	pipenv lock -r > requirements.txt
 build:requirements
 	docker build --pull -t $(PREFIX)/${IMAGE}:$(TAG) .
+build-clean:requirements
+	docker build --no-cache -t $(PREFIX)/${IMAGE}:$(TAG) .
 push:
 	gcloud docker -- push $(PREFIX)/${IMAGE}:$(TAG)
 
@@ -32,7 +34,7 @@ push:
 run:
 	docker run -itd --name ${IMAGE} --env LOG_INTERVAL=0.1 $(PREFIX)/${IMAGE}:$(TAG)
 login:
-	docker exec -it --name ${IMAGE} /bin/sh
+	docker exec -it ${IMAGE} /bin/sh
 kill:
 	docker kill ${IMAGE}
 
