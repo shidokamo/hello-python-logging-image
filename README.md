@@ -1,4 +1,4 @@
-# Hello Python Logging Image
+# Test Logger
 Python の logging モジュールを利用して、ファイルにログを吐き続けるイメージです。
 fluentd 等と併用して、ログストーリムのテストに使用することを想定しています。
 

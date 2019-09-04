@@ -1,7 +1,7 @@
 REPO=gcr.io
 PROJECT:= $(shell gcloud config get-value project)
 PREFIX := ${REPO}/${PROJECT}
-IMAGE := hello-python-logging
+IMAGE := test-logger
 TAG = 2.0.0
 LOG_INTEVAL =
 export LOG_INTERVAL
