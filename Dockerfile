@@ -39,4 +39,4 @@ RUN BUILD_DEPS="curl ca-certificates" \
 COPY code/* /
 
 # Start Fluentd to pick up our config that watches Docker container logs.
-CMD LOG_INTERVAL=1 python3 /hello.py
+CMD python3 /hello.py

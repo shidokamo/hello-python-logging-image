@@ -32,7 +32,7 @@ push:
 
 # Local debug (with Docker)
 run:
-	docker run -itd --name ${IMAGE} --env LOG_INTERVAL=0.1 $(PREFIX)/${IMAGE}:$(TAG)
+	docker run -itd --name ${IMAGE} --env LOG_INTERVAL=${LOG_INTERVAL} $(PREFIX)/${IMAGE}:$(TAG)
 login:
 	docker exec -it ${IMAGE} /bin/sh
 kill:
