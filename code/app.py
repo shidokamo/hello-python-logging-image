@@ -28,6 +28,9 @@ class FormatterJSON(logging.Formatter):
 
         return json.dumps(json_msg, ensure_ascii=False)
 
+logfile_dir = os.environ.get('LOG_DIR') if os.environ.get('LOG_DIR') else "."
+os.makedirs(logfile_dir, exist_ok=True)
+
 dictConfig({
     'version': 1,
     'formatters': {
@@ -52,7 +55,7 @@ dictConfig({
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'level': 'DEBUG',
             'formatter': 'json',
-            'filename': 'app.log',
+            'filename': logfile_dir + '/app.log',
             'interval': 2,
             'when': 'M',
             'backupCount': 5,
