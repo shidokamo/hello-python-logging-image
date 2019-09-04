@@ -2,7 +2,7 @@ REPO=gcr.io
 PROJECT:= $(shell gcloud config get-value project)
 PREFIX := ${REPO}/${PROJECT}
 IMAGE := test-logger
-TAG = 2.0.0
+TAG = v2.0.0
 LOG_INTERVAL = 1
 LOG_DIR := .
 export LOG_INTERVAL LOG_DIR
