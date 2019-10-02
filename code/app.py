@@ -29,6 +29,7 @@ class FormatterJSON(logging.Formatter):
         return json.dumps(json_msg, ensure_ascii=False)
 
 logfile_dir = os.environ.get('LOG_DIR') if os.environ.get('LOG_DIR') else "."
+log_limit   = int(os.environ.get('LOG_LIMIT'))
 os.makedirs(logfile_dir, exist_ok=True)
 
 dictConfig({
@@ -105,6 +106,8 @@ def within_region(lat, lon):
 
 console.info("------------------------------------------------------------------")
 console.info(" logging : interval = {} sec".format(os.environ.get('LOG_INTERVAL')))
+if log_limit > 0:
+    console.info(" logging : limit    = {} data".format(log_limit))
 console.info("------------------------------------------------------------------")
 i = 0
 # Waighted category
@@ -136,3 +139,7 @@ while True:
     if os.environ.get('LOG_INTERVAL'):
         time.sleep(float(os.environ['LOG_INTERVAL']))
     i += 1
+    if log_limit > 0 and log_limit -1 < i:
+        while True:
+            console.info("Log count {} reached the limit.".format(i))
+            time.sleep(10) # Loop until the program is killed. This is required to prevent k8s pod termination.
