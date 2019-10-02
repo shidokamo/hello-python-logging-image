@@ -1,3 +1,5 @@
+include env
+export
 REPO=gcr.io
 PROJECT:= $(shell gcloud config get-value project)
 PREFIX := ${REPO}/${PROJECT}
