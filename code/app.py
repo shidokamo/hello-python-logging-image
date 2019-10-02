@@ -118,22 +118,25 @@ while True:
     lon = round(random.gauss(JAPAN_LON_CENTER, 1), 6)
     try:
         if within_region(lat, lon):
+            cost = random.gauss(500, 100)
+            score = random.random()
+            category = random.sample(category_index, k=1)[0]
             data = {
                     'location': {
                         'lat': lat,
                         'lon': lon,
                     },
                     # Add some random values
-                    'cost': random.gauss(500, 100),
-                    'score': random.random(),
-                    'category': random.sample(category_index, k=1)[0],
+                    'cost': cost,
+                    'score': score,
+                    'category': category,
 #                    'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S,%f')
                     }
             fwrite.info(data) # Dump raw JSON into the file
+            console.info("[{:8}] category: {}, cost: {}".format(i, category, cost))
         else:
             console.info("Latitude: {}, Longitude: {} is not within the region".format(lat, lon))
             continue
-        console.info("[{:8}] Latitude: {}, Longitude: {}".format(i, lat, lon))
     except Exception as e:
         console.warning(e);
     if os.environ.get('LOG_INTERVAL'):
