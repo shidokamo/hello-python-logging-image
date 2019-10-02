@@ -21,6 +21,8 @@ clean:
 	-rm -rf country
 fluentd:
 	bundle exec fluentd -c fluent.conf
+fluentd-kafka:
+	bundle exec fluentd -c fluent-kafka.conf
 
 # build
 requirements:
