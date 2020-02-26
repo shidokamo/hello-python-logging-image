@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM gcr.io/google-containers/debian-base-amd64:v1.0.0
+FROM gcr.io/google-containers/debian-base-amd64:v2.0.0
 
 COPY requirements.txt /
 
@@ -20,7 +20,7 @@ COPY requirements.txt /
 # 2. Install fluentd via ruby.
 # 3. Remove build dependencies.
 # 4. Cleanup leftover caches & files.
-RUN BUILD_DEPS="curl ca-certificates" \
+RUN BUILD_DEPS="curl python3-distutils ca-certificates" \
     && clean-install $BUILD_DEPS \
                      python3 \
     && curl https://bootstrap.pypa.io/get-pip.py -o /get-pip.py \
